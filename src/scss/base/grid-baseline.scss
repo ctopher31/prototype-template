@@ -1,0 +1,48 @@
+.show-grid-baseline {
+  background: repeating-linear-gradient(rgba($base-white, .1), rgba($base-white, .1) ($baseline - .1rem), rgba($grid-baseline-red, .5) $baseline);
+  height: 100%;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+
+  .container {
+    height: 100%;
+    position: relative;
+  }
+
+  .grid-border {
+    background: rgba($grid-baseline-red, .5);
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: .2rem;
+  }
+
+  .grid-border-left {
+    left: 0;
+  }
+
+  .grid-border-right {
+    right: 0;
+  }
+
+  .row {
+    height: 100%;
+
+    > * {
+      background: rgba($base-black, .1);
+      height: 100%;
+    }
+
+    > ::before {
+      background: rgba($base-black, .1);
+      content: '';
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

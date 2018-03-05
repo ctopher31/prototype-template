@@ -1,0 +1,39 @@
+{
+  "extends": "airbnb",
+  "globals": {
+    "document": false,
+    "fetch": false,
+    "navigator":  false,
+    "window": false,
+    "$": false,
+    "XMLHttpRequest": false
+  },
+  "rules": {
+    "no-param-reassign": [2, {
+      "props": false
+    }],
+    "object-curly-newline": ["error", {
+      "minProperties": 8,
+      "consistent": true
+    }],
+    "react/require-default-props": 0,
+    "jsx-a11y/label-has-for": [2, {
+      "components": ["label"],
+      "required": {
+        "every": ["id"]
+      },
+      "allowChildren": false
+    }],
+    "max-len": [2, {
+      "code": 240,
+      "ignoreComments": true,
+      "ignoreUrls": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreRegExpLiterals": true
+    }],
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": true
+    }]
+  }
+}

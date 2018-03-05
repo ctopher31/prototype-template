@@ -1,0 +1,42 @@
+// Mixins
+@mixin xs {
+  /* stylelint-disable unit-whitelist */
+  @media (max-width: #{$sm-width - 1px}) {
+    /* stylelint-enable unit-whitelist */
+    @content;
+  }
+}
+
+@mixin sm-only {
+  /* stylelint-disable unit-whitelist */
+  @media (min-width: #{$sm-width}) and (max-width: #{$md-width - 1px}) {
+    /* stylelint-enable unit-whitelist */
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (min-width: #{$sm-width}) {
+    @content;
+  }
+}
+
+@mixin md-only {
+  /* stylelint-disable unit-whitelist */
+  @media (min-width: #{$md-width}) and (max-width: #{$lg-width - 1px}) {
+    /* stylelint-enable unit-whitelist */
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: #{$md-width}) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: #{$lg-width}) {
+    @content;
+  }
+}

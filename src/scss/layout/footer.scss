@@ -1,0 +1,11 @@
+// Footer
+.footer {
+  background-color: $base-gray-mid;
+  flex: none;
+  padding: 4rem 0;
+  width: 100%;
+
+  .copyright {
+    color: $base-white;
+  }
+}

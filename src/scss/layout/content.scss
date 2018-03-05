@@ -1,0 +1,33 @@
+// Content
+.content {
+  flex: 1 0 auto;
+  overflow-x: hidden;
+  width: 100%;
+
+  @include sm {
+    padding-top: 27rem;
+  }
+}
+
+.grid-row {
+  margin-bottom: 12rem;
+}
+
+.grid-col {
+  border: .1rem solid #5b5b5b;
+  height: calc(100% - 3rem);
+  margin-bottom: $baseline * 2;
+  padding-left: $baseline;
+  padding-right: $baseline;
+
+  h3 {
+    color: #5b5b5b;
+  }
+}
+
+.intro-section {
+
+  .grid-col {
+    padding: 6rem;
+  }
+}

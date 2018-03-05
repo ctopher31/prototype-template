@@ -1,0 +1,14 @@
+// Header
+.header {
+  background-color: $base-black;
+  flex: none;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+
+  @include sm {
+    position: fixed;
+  }
+}

@@ -1,0 +1,47 @@
+{# Index #}
+{% extends "layout.njk" %}
+{% set description = 'CSS Grid demo' %}
+{% block meta %}{% endblock %}
+{% set title = 'CSS Grid Demo' %}
+{% block links %}{% endblock %}
+{% block scripts %}{% endblock %}
+{% set pagename = 'home' %}
+
+{% block content %}
+
+<!-- Content -->
+<main class="content {{ pagename }}-page">
+  <section class="intro-section">
+    <div class="container">
+      <div class="row grid-row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 grid-col-sm-offset-3">
+          <div class="grid-col">
+            <h1 class="page-heading">Grid Layout is the Future of the Web</h1>
+            <h3>This is a Column 8</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="visualization-section">
+    <div class="container">
+      <div class="visualization">
+        <div class="visualization-image-container">
+          <img class="visualization-image" src="/images/default-image.jpg" alt="Visualization Room Scene">
+        </div>
+        <div class="visualization-filters">
+          <ul class="filter-list">
+            <li class="filter-item">Productline</li>
+            <li class="filter-item">Shade Type</li>
+            <li class="filter-item">Color</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- Content -->
+
+{% endblock %}
