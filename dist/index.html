@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <meta name="viewport" content="initial-scale=1, width=device-width, shrink-to-fit=no">
     <title>CSS Grid Demo</title>
     <meta name="description" content="CSS Grid demo">
     <meta name="keywords" content="keywords" />
@@ -73,14 +73,32 @@
   <section class="visualization-section">
     <div class="container">
       <div class="visualization">
-        <div class="visualization-image-container">
-          <img class="visualization-image" src="/images/default-image.jpg" alt="Visualization Room Scene">
+        <div class="zoom-control-container">
+          <ul class="list-unstyled zoom-control-list">
+            <li class="zoom-control-list-item zoom-in-list-item">
+              <button type="button" class="zoom-button zoom-in-button"><span class="zoom-control-text zoom-in-text">Zoom In</span><span class="zoom-control-icon zoom-plus-icon"></span></button>
+            </li>
+            <li class="zoom-control-list-item zoom-out-list-item">
+              <button type="button" class="zoom-button zoom-out-button"><span class="zoom-control-text zoom-out-text">Zoom Out</span><span class="zoom-control-icon zoom-minus-icon"></span></button>
+            </li>
+            <li class="zoom-control-list-item reset-list-item">
+              <button type="button" class="zoom-button reset-button"><span class="zoom-control-text zoom-reset-text">Reset</span><span class="zoom-control-icon zoom-reset-icon"></span></button>
+            </li>
+          </ul>
+          <div class="zoom-range-container">
+            <input id="zoom-range-slider" type="range" min="1" max="2" value="1" step=".01">
+          </div>
         </div>
-        <div class="visualization-filters">
-          <ul class="filter-list">
-            <li class="filter-item">Productline</li>
-            <li class="filter-item">Shade Type</li>
-            <li class="filter-item">Color</li>
+        <div class="visualization-image-container">
+          
+          <img class="visualization-image" id="viz-image" src="http://s7d4.scene7.com/is/image/SpringsWindowFashions?src=ir{SpringsWindowFashionsRender/bali-solar-demo?&obj=solar_shades/ss_cordless&show&src=14G42424_WT&obj=ss_valances/ss_medium_cassette_valance&show&src=14G42424_WT&opac=100}&hei=2000&wid=2000&fit=fit,1" alt="Visualization Room Scene">
+        </div>
+        
+        <div class="visualization-filter-container">
+          <ul class="visualization-filter-list">
+            <li class="visualization-filter-item">Productline</li>
+            <li class="visualization-filter-item">Shade Type</li>
+            <li class="visualization-filter-item">Color</li>
           </ul>
         </div>
       </div>

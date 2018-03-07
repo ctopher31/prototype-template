@@ -3,3 +3,24 @@
   background-color: $base-gray-light2;
   height: 30rem;
 }
+
+.visualization-image-container {
+  background-color: $base-white;
+  border: .1rem solid $base-gray-dark1;
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 62.5%;
+  width: auto;
+
+  @include sm {
+    height: 50rem;
+    margin: 0 auto;
+    padding-bottom: 0;
+    width: 50rem;
+  }
+}
+
+.visualization-image {
+  height: 100%;
+  width: auto;
+}
