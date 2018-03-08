@@ -6,6 +6,7 @@ GridBuilder.init();
 
 // Drag framed Element
 const vizImage = document.getElementById('viz-image');
+
 const dragFramedElement = (elem) => {
   let startX = 0;
   let startY = 0;
@@ -25,6 +26,7 @@ const dragFramedElement = (elem) => {
     }
   });
 };
+
 dragFramedElement(vizImage);
 
 // Zoom framed Element

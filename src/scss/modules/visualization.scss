@@ -1,7 +1,11 @@
 // Visualization
 .visualization-section {
   background-color: $base-gray-light2;
-  height: 30rem;
+}
+
+.visualization {
+  padding-bottom: $baseline * 2;
+  padding-top: $baseline * 2;
 }
 
 .visualization-image-container {

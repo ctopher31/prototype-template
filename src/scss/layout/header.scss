@@ -9,6 +9,7 @@
   z-index: 99;
 
   @include sm {
+    height: $baseline * 3;
     position: fixed;
   }
 }
