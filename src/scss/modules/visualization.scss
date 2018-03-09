@@ -13,18 +13,55 @@
   border: .1rem solid $base-gray-dark1;
   height: 0;
   overflow: hidden;
-  padding-bottom: 62.5%;
+  padding-bottom: 100%;
   width: auto;
 
   @include sm {
-    height: 50rem;
+    height: 90rem;
     margin: 0 auto;
     padding-bottom: 0;
-    width: 50rem;
+    width: 90rem;
   }
 }
 
 .visualization-image {
-  height: 100%;
-  width: auto;
+  height: auto;
+  width: 100%;
+
+  @include sm {
+    height: 100%;
+    width: auto;
+  }
+}
+
+.zoom-range-container {
+  border: .1rem solid $base-gray-dark3;
+  height: 3.9rem;
+  margin-bottom: 3.9rem;
+  position: relative;
+  width: 26rem;
+}
+
+.zoom-range-slider {
+  background-color: $base-gray-dark3;
+  background-position: left top;
+  background-size: 23% auto;
+  border: .1rem solid $base-gray-dark3;
+  height: 1.3rem;
+  left: 1.3rem;
+  position: absolute;
+  right: 1.3rem;
+  top: 1.2rem;
+  width: calc(100% - 2.6rem);
+}
+
+.zoom-range-slider-button {
+  background-color: $base-gray-light3;
+  border: .1rem solid $base-gray-dark3;
+  border-radius: 50%;
+  height: 2.6rem;
+  left: 90%;
+  position: absolute;
+  top: .6rem;
+  width: 2.6rem;
 }

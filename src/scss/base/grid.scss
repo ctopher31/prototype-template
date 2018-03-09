@@ -1,32 +1,41 @@
 // Grid Layout
-.container {
+%container-base-styles {
+  margin-left: auto;
+  margin-right: auto;
   padding-left: $baseline / 2;
   padding-right: $baseline / 2;
-  width: 100%;
-
-  @include sm {
-    /* stylelint-disable unit-whitelist */
-    width: 744px;
-    /* stylelint-enable unit-whitelist */
-  }
-
-  @include md {
-    /* stylelint-disable unit-whitelist */
-    width: 968px;
-    /* stylelint-enable unit-whitelist */
-  }
-
-  @include lg {
-    /* stylelint-disable unit-whitelist */
-    width: 1176px;
-    /* stylelint-enable unit-whitelist */
-  }
 
   &::before,
   &::after {
     content: '';
     display: none;
   }
+}
+
+.container {
+  @extend %container-base-styles;
+
+  @include sm {
+    /* stylelint-disable unit-whitelist */
+    width: $sm-width - $baseline-pixels;
+    /* stylelint-enable unit-whitelist */
+  }
+
+  @include md {
+    /* stylelint-disable unit-whitelist */
+    width: $md-width - $baseline-pixels;
+    /* stylelint-enable unit-whitelist */
+  }
+
+  @include lg {
+    /* stylelint-disable unit-whitelist */
+    width: $lg-width - $baseline-pixels;
+    /* stylelint-enable unit-whitelist */
+  }
+}
+
+.container-fluid {
+  @extend %container-base-styles;
 }
 
 .row {

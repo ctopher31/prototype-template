@@ -2,6 +2,9 @@
 // Grid and Baseline -----------------------------------------------------------
 // Baseline
 $baseline: 2.6rem;
+/* stylelint-disable unit-whitelist */
+$baseline-pixels: 26px;
+/* stylelint-enable unit-whitelist */
 
 // Grid breakpoints
 $breakpoints: ('xs', 'sm', 'md', 'lg');
