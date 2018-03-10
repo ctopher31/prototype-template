@@ -2,7 +2,7 @@ import gulp from 'gulp';
 // import replace from 'replace-in-file';
 import { runServer, buildTemplates, buildJs, buildSass, lintScss, lintJs, testJs } from './task-util';
 import config from './project-config';
-import webpackEs5Config from './webpack.config';
+import webpackConfig from './webpack.config';
 
 const {
   bundleJs,
@@ -15,7 +15,7 @@ const {
 
 gulp.task('build', ['buildNunjucks', 'buildBundleJs', 'buildBundleSass']);
 
-gulp.task('buildBundleJs', () => buildJs(bundleJs, [webpackEs5Config])
+gulp.task('buildBundleJs', () => buildJs(bundleJs, [webpackConfig])
   .then(() => {
     const {
       // files,
@@ -37,7 +37,7 @@ gulp.task('buildBundleJs', () => buildJs(bundleJs, [webpackEs5Config])
   })
   .catch(error => console.log(error)));
 
-gulp.task('buildPolyfillJs', () => buildJs(polyfillJs, [webpackEs5Config])
+gulp.task('buildPolyfillJs', () => buildJs(polyfillJs, [webpackConfig])
   .then(() => {
     const {
       // files,

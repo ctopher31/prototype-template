@@ -43,11 +43,11 @@ if (!navigator.userAgent.match(/(iPad|iPhone|Android)/i)) {
     const zoomSlider = document.getElementById('zoom-range-slider');
     const originalHeight = zoomedImage.style.height;
     let computedValue;
-    zoomSlider.addEventListener('input', () => {
+
+    const zoomHandler = () => {
       if (parseFloat(zoomSlider.value) === 1) {
         zoomedImage.style.height = originalHeight;
         zoomedImage.parentElement.style.overflow = 'hidden';
-        console.log('Zoom is 1', zoomedImage, zoomedImage.style.height);
       } else {
         computedValue = `${zoomedImage.parentElement.clientHeight * parseFloat(zoomSlider.value)}`;
         if (computedValue >= maxImageSize) {
@@ -58,9 +58,11 @@ if (!navigator.userAgent.match(/(iPad|iPhone|Android)/i)) {
           zoomedImage.parentElement.scrollLeft = (computedValue - zoomedImage.parentElement.clientWidth) / 2;
         }
         zoomedImage.parentElement.style.overflow = 'auto';
-        console.log('Zoomed', zoomedImage, zoomedImage.style.height, zoomedImage.parentElement, zoomedImage.parentElement.scrollLeft, zoomedImage.parentElement.clientWidth);
       }
-    });
+    };
+
+    zoomSlider.addEventListener('input', zoomHandler);
+    zoomSlider.addEventListener('change', zoomHandler);
   };
 
   zoomFramedElement(vizImage);

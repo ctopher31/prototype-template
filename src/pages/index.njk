@@ -28,8 +28,13 @@
   <section class="visualization-section">
     <div class="container">
       <div class="visualization">
+        <div class="visualization-image-container">
+          {# <img class="visualization-image" id="viz-image" src="https://s7d4.scene7.com/is/image/SpringsWindowFashions?src=ir{SpringsWindowFashionsRender/bali_horiz_vignette_cs_051116?i=5ccd4350-afaa-4772-953c-40f52d32753b&obj=Trim&color=246,245,240&obj=3_8in_double_cell_cellular_shade/3_8in_dc_standard&show&src=06B2454_WT}&hei=2000&wid=2000&fit=crop,1" alt="Visualization Room Scene"> #}
+          {# <img class="visualization-image" id="viz-image" src="http://s7d4.scene7.com/is/image/SpringsWindowFashions?src=ir{SpringsWindowFashionsRender/zoom-test-vignette-2?&obj=solar-shades/cordless&show&src=14G40456_PT}&wid=2400" alt="Visualization Room Scene"> #}
+          <img class="visualization-image" id="viz-image" draggable="false" src="http://s7d4.scene7.com/is/image/SpringsWindowFashions?src=ir{SpringsWindowFashionsRender/zoom-test-vignette-2?&obj=solar-shades/cordless&show&src=14G40456_PT&opac=90}&wid=2400&hei=2400" alt="Visualization Room Scene">
+        </div>
         <div class="zoom-control-container" id="zoom-controls">
-          <ul class="list-unstyled zoom-control-list">
+          {# <ul class="list-unstyled zoom-control-list">
             <li class="zoom-control-list-item zoom-in-list-item">
               <button type="button" class="zoom-button zoom-in-button"><span class="zoom-control-text zoom-in-text">Zoom In</span><span class="zoom-control-icon zoom-plus-icon"></span></button>
             </li>
@@ -39,23 +44,11 @@
             <li class="zoom-control-list-item reset-list-item">
               <button type="button" class="zoom-button reset-button"><span class="zoom-control-text zoom-reset-text">Reset</span><span class="zoom-control-icon zoom-reset-icon"></span></button>
             </li>
-          </ul>
+          </ul> #}
           <div class="zoom-range-container">
-            <input id="zoom-range-slider" type="range" min="1" max="2" value="1" step=".01">
+            <input id="zoom-range-slider" class="zoom-range-slider" type="range" min="1" max="2" value="1" step=".01">
           </div>
         </div>
-        <div class="visualization-image-container">
-          {# <img class="visualization-image" id="viz-image" src="https://s7d4.scene7.com/is/image/SpringsWindowFashions?src=ir{SpringsWindowFashionsRender/bali_horiz_vignette_cs_051116?i=5ccd4350-afaa-4772-953c-40f52d32753b&obj=Trim&color=246,245,240&obj=3_8in_double_cell_cellular_shade/3_8in_dc_standard&show&src=06B2454_WT}&hei=2000&wid=2000&fit=crop,1" alt="Visualization Room Scene"> #}
-          {# <img class="visualization-image" id="viz-image" src="http://s7d4.scene7.com/is/image/SpringsWindowFashions?src=ir{SpringsWindowFashionsRender/zoom-test-vignette-2?&obj=solar-shades/cordless&show&src=14G40456_PT}&wid=2400" alt="Visualization Room Scene"> #}
-          <img class="visualization-image" id="viz-image" src="http://s7d4.scene7.com/is/image/SpringsWindowFashions?src=ir{SpringsWindowFashionsRender/zoom-test-vignette-2?&obj=solar-shades/cordless&show&src=14G40456_PT&opac=90}&wid=2400&hei=2400" alt="Visualization Room Scene">
-        </div>
-        {# <div class="visualization-filter-container">
-          <ul class="visualization-filter-list">
-            <li class="visualization-filter-item">Productline</li>
-            <li class="visualization-filter-item">Shade Type</li>
-            <li class="visualization-filter-item">Color</li>
-          </ul>
-        </div> #}
       </div>
     </div>
   </section>

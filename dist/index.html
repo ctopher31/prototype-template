@@ -21,7 +21,6 @@
     <meta name="twitter:image:alt" content="">
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="canonical" href="http://cssgriddemo.dev" />
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.v3.3.7-2.min.css">
     <link rel="stylesheet" type="text/css" href="/css/styles.v1.0-1.min.css">
     
   </head>
@@ -73,28 +72,17 @@
   <section class="visualization-section">
     <div class="container">
       <div class="visualization">
-        <div class="zoom-control-container" id="zoom-controls">
-          <ul class="list-unstyled zoom-control-list">
-            <li class="zoom-control-list-item zoom-in-list-item">
-              <button type="button" class="zoom-button zoom-in-button"><span class="zoom-control-text zoom-in-text">Zoom In</span><span class="zoom-control-icon zoom-plus-icon"></span></button>
-            </li>
-            <li class="zoom-control-list-item zoom-out-list-item">
-              <button type="button" class="zoom-button zoom-out-button"><span class="zoom-control-text zoom-out-text">Zoom Out</span><span class="zoom-control-icon zoom-minus-icon"></span></button>
-            </li>
-            <li class="zoom-control-list-item reset-list-item">
-              <button type="button" class="zoom-button reset-button"><span class="zoom-control-text zoom-reset-text">Reset</span><span class="zoom-control-icon zoom-reset-icon"></span></button>
-            </li>
-          </ul>
-          <div class="zoom-range-container">
-            <input id="zoom-range-slider" type="range" min="1" max="2" value="1" step=".01">
-          </div>
-        </div>
         <div class="visualization-image-container">
           
           
-          <img class="visualization-image" id="viz-image" src="http://s7d4.scene7.com/is/image/SpringsWindowFashions?src=ir{SpringsWindowFashionsRender/zoom-test-vignette-2?&obj=solar-shades/cordless&show&src=14G40456_PT&opac=90}&wid=2400&hei=2400" alt="Visualization Room Scene">
+          <img class="visualization-image" id="viz-image" draggable="false" src="http://s7d4.scene7.com/is/image/SpringsWindowFashions?src=ir{SpringsWindowFashionsRender/zoom-test-vignette-2?&obj=solar-shades/cordless&show&src=14G40456_PT&opac=90}&wid=2400&hei=2400" alt="Visualization Room Scene">
         </div>
-        
+        <div class="zoom-control-container" id="zoom-controls">
+          
+          <div class="zoom-range-container">
+            <input id="zoom-range-slider" class="zoom-range-slider" type="range" min="1" max="2" value="1" step=".01">
+          </div>
+        </div>
       </div>
     </div>
   </section>
