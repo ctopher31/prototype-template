@@ -1,4 +1,5 @@
 // Mixins
+// Grid mixins
 @mixin xs {
   /* stylelint-disable unit-whitelist */
   @media (max-width: #{$sm-width - 1px}) {
@@ -38,5 +39,71 @@
 @mixin lg {
   @media (min-width: #{$lg-width}) {
     @content;
+  }
+}
+
+@mixin grid-column($column-span) {
+
+  @supports (display: grid) {
+    grid-column-end: span $column-span;
+    grid-column-start: auto;
+  }
+}
+
+@mixin build-grid($grid-breakpoint, $grid-span) {
+
+  .col-#{$grid-breakpoint}-#{$grid-span} {
+
+    @if $grid-breakpoint == 'sm' {
+      @include sm {
+        @include grid-column($grid-span);
+      }
+    } @else if $grid-breakpoint == 'md' {
+      @include md {
+        @include grid-column($grid-span);
+      }
+    } @else if $grid-breakpoint == 'lg' {
+      @include lg {
+        @include grid-column($grid-span);
+      }
+    } @else {
+      @include xs {
+        @include grid-column($grid-span);
+      }
+    }
+  }
+}
+
+@mixin grid-column-offset($column-start) {
+
+  @supports (display: grid) {
+    /* stylelint-disable declaration-no-important */
+    grid-column-start: $column-start + 1 !important;
+    /* stylelint-enable declaration-no-important */
+    margin: 0;
+  }
+}
+
+@mixin build-offsets($grid-breakpoint, $grid-start) {
+
+  .col-#{$grid-breakpoint}-offset-#{$grid-start} {
+
+    @if $grid-breakpoint == 'sm' {
+      @include sm {
+        @include grid-column-offset($grid-start);
+      }
+    } @else if $grid-breakpoint == 'md' {
+      @include md {
+        @include grid-column-offset($grid-start);
+      }
+    } @else if $grid-breakpoint == 'lg' {
+      @include lg {
+        @include grid-column-offset($grid-start);
+      }
+    } @else {
+      @include xs {
+        @include grid-column-offset($grid-start);
+      }
+    }
   }
 }
