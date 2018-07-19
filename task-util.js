@@ -49,7 +49,7 @@ const buildJsPromised = ({ source, dest, filename, version, build }, webpackConf
       source,
     },
     output: {
-      filename: `${filename}.${webpackConfig.output.filename}v${version}-${build}.min.js`,
+      filename: `${filename}${webpackConfig.output.filename}.v${version}-${build}.min.js`,
     },
   }), webpack))
   .pipe(gulp.dest(dest))

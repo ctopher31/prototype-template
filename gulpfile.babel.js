@@ -3,10 +3,16 @@ import gulp from 'gulp';
 import { runServer, buildTemplates, buildJs, buildSass, lintScss, lintJs, testJs } from './task-util';
 import config from './project-config';
 import webpackConfig from './webpack.config';
+import webpackClientConfig from './webpack.react-client.config';
+import webpackServerConfig from './webpack.react-server.config';
+
+/* eslint-disable no-console */
 
 const {
   bundleJs,
   polyfillJs,
+  clientRenderJs,
+  serverSideRenderJs,
 } = config.paths.js;
 
 const {
@@ -57,6 +63,30 @@ gulp.task('buildPolyfillJs', () => buildJs(polyfillJs, [webpackConfig])
   })
   .catch(error => console.log(error)));
 
+gulp.task('buildClientRenderJs', () => buildJs(clientRenderJs, [webpackClientConfig])
+  .then(() => {
+    const {
+      watch,
+      tests,
+    } = clientRenderJs;
+
+    console.log(`ClientRender JS Rebuilt! ${new Date().toLocaleTimeString()}`);
+    lintJs(watch);
+    testJs(tests);
+  }));
+
+gulp.task('buildServerSideRenderJs', () => buildJs(serverSideRenderJs, [webpackServerConfig])
+  .then(() => {
+    const {
+      watch,
+      tests,
+    } = serverSideRenderJs;
+
+    console.log(`ServerSideRender JS Rebuilt! ${new Date().toLocaleTimeString()}`);
+    lintJs(watch);
+    testJs(tests);
+  }));
+
 gulp.task('buildBundleSass', () => buildSass(bundleSass)
   .then(() => {
     const {
@@ -86,6 +116,10 @@ gulp.task('watch', ['watchNunjucks', 'watchBundleSass', 'watchBundleJs', 'watchT
 gulp.task('watchBundleJs', () => gulp.watch(bundleJs.watch, ['buildBundleJs']).on('change', () => console.log('Bundle JS Changed!')));
 
 gulp.task('watchPolyfillJs', () => gulp.watch(polyfillJs.watch, ['buildPolyfillJs']).on('change', () => console.log('Polyfill JS Changed!')));
+
+gulp.task('watchClientRenderJs', () => gulp.watch(clientRenderJs.watch, ['buildClientRenderJs']).on('change', () => console.log('ClientRender JS Changed!')));
+
+gulp.task('watchServerSideRenderJs', () => gulp.watch(serverSideRenderJs.watch, ['buildServerSideRenderJs']).on('change', () => console.log('ServerSideRender JS Changed!')));
 
 gulp.task('watchTestJs', () => gulp.watch(config.paths.js.tests).on('change', () => console.log('Test JS Run!')));
 

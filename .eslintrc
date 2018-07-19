@@ -6,7 +6,10 @@
     "navigator":  false,
     "window": false,
     "$": false,
-    "XMLHttpRequest": false
+    "XMLHttpRequest": false,
+    "dataLayer": false,
+    "epiHelpers": false,
+    "jQuery": false
   },
   "rules": {
     "no-param-reassign": [2, {
@@ -25,7 +28,7 @@
       "allowChildren": false
     }],
     "max-len": [2, {
-      "code": 240,
+      "code": 480,
       "ignoreComments": true,
       "ignoreUrls": true,
       "ignoreStrings": true,

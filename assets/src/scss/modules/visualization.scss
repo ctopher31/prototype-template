@@ -1,0 +1,167 @@
+// loader
+.loader {
+  animation: spin 2s linear infinite;
+  border: 1.3rem solid $base-gray-light1;
+  border-radius: 50%;
+  border-top: 1.3rem solid $base-gray-dark3;
+  height: 7.8rem;
+  width: 7.8rem;
+}
+
+@keyframes spin {
+
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Visualization
+.visualization-section {
+  background-color: $base-gray-light2;
+}
+
+.visualization {
+  padding-bottom: $baseline * 2;
+  padding-top: $baseline * 2;
+}
+
+.visualization-image-container {
+  background-color: $base-white;
+  border: .1rem solid $base-gray-light1;
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 99%;
+  position: relative;
+  width: auto;
+
+  @include sm {
+    height: 60rem;
+    margin: 0 auto;
+    padding-bottom: 0;
+    width: 60rem;
+  }
+}
+
+.visualization-image {
+  height: auto;
+  position: absolute;
+  width: 100%;
+
+  @include sm {
+    height: 100%;
+    width: auto;
+  }
+}
+
+.zoom-range-container {
+  background-color: $base-gray-light1;
+  height: 3.9rem;
+  margin: 0 auto 3.9rem;
+  width: 26rem;
+}
+
+.zoom-range-slider {
+  /* stylelint-disable property-no-vendor-prefix */
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  /* stylelint-enable property-no-vendor-prefix */
+  background-color: transparent;
+  height: 3.9rem;
+  left: 1.3rem;
+  padding: 0;
+  position: relative;
+  right: 1.3rem;
+  width: calc(100% - 2.6rem);
+
+  &:focus {
+    /* stylelint-disable declaration-no-important */
+    outline: none !important;
+    /* stylelint-enable declaration-no-important */
+  }
+
+  // Webkit
+  &::-webkit-slider-runnable-track {
+    /* stylelint-disable property-no-vendor-prefix */
+    -webkit-appearance: none;
+    /* stylelint-enable property-no-vendor-prefix */
+    background-color: $base-gray-dark3;
+    height: 1.3rem;
+  }
+
+  &::-webkit-slider-thumb {
+    /* stylelint-disable property-no-vendor-prefix */
+    -webkit-appearance: none;
+    /* stylelint-enable property-no-vendor-prefix */
+    background-color: $base-gray-light3;
+    border: .1rem solid $base-gray-dark3;
+    border-radius: 50%;
+    height: 2.6rem;
+    margin-top: -.6rem;
+    width: 2.6rem;
+  }
+
+  // Firefox
+  &::-moz-range-track {
+    /* stylelint-disable property-no-vendor-prefix */
+    -moz-appearance: none;
+    /* stylelint-enable property-no-vendor-prefix */
+    background-color: $base-gray-dark3;
+    height: 1.3rem;
+  }
+
+  &::-moz-range-thumb {
+    /* stylelint-disable property-no-vendor-prefix */
+    -moz-appearance: none;
+    /* stylelint-enable property-no-vendor-prefix */
+    background-color: $base-gray-light3;
+    border: .1rem solid $base-gray-dark3;
+    border-radius: 50%;
+    height: 2.6rem;
+    width: 2.6rem;
+  }
+
+  &::-moz-focus-outer {
+    border: 0;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+  // IE/Edge
+  &::-ms-track {
+    background: transparent;
+    border-color: transparent;
+    border-width: .6rem 0;
+    color: transparent;
+    height: .8rem;
+  }
+
+  &::-ms-thumb {
+    background-color: $base-gray-light3;
+    border: .1rem solid $base-gray-dark3;
+    border-radius: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
+  &::-ms-fill-lower {
+    background: $base-gray-dark3;
+
+    &:focus {
+      background: $base-gray-dark3;
+    }
+  }
+
+  &::-ms-fill-upper {
+    background: $base-gray-dark3;
+
+    &:focus {
+      background: $base-gray-dark3;
+    }
+  }
+}

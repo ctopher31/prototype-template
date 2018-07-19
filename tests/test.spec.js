@@ -36,7 +36,7 @@ describe('Testing Function Test', () => {
 
   describe('JSDOM Test', () => {
     before(() => (
-      JSDOM.fromFile('./test-templates/test.template.html', { runScripts: 'dangerously' })
+      JSDOM.fromFile('./tests/test-templates/test.template.html', { runScripts: 'dangerously' })
         .then((dom) => {
           global.window = dom.window;
           global.document = window.document;
