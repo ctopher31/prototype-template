@@ -1,21 +1,16 @@
 // RoutesJs
 const express = require('express');
+const home = require('../controllers/home');
 
 const router = express.Router();
 
 /* GET home page. */
-router.get('/', (req, res) => {
-  res.render('home/index', { heading: 'Express is here!' });
-});
+router.get('/', (req, res) => home.index(req, res));
 
 /* GET home page. */
-router.get('/home/about', (req, res) => {
-  res.render('home/about', { heading: 'About this App' });
-});
+router.get('/home/about', (req, res) => home.about(req, res));
 
 /* GET home page. */
-router.get('/home/contact', (req, res) => {
-  res.render('home/contact', { heading: 'Contact Us' });
-});
+router.get('/home/contact', (req, res) => home.contact(req, res));
 
 module.exports = router;

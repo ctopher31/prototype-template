@@ -1,21 +1,24 @@
 // ServerJs
-
-const debug = require('debug');
 const path = require('path');
 const fs = require('fs');
-const logger = require('morgan');
+const morgan = require('morgan');
 const express = require('express');
-const http = require('http');
-const Io = require('socket.io');
 const nunjucks = require('nunjucks');
-
-const routes = require('./routes');
+const rfs = require('rotating-file-stream');
 
 const app = express();
-const server = http.Server(app);
-const io = new Io(server);
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const debug = require('debug')('app');
+const logger = require('./config/winston');
 
-// view engine setup
+// Get app modules
+const routes = require('./routes');
+
+// Set environment
+app.set('port', process.env.PORT || 3002);
+
+// View engine setup
 app.engine('njk', nunjucks.render);
 app.set('view engine', 'njk');
 nunjucks.configure('views', {
@@ -24,55 +27,65 @@ nunjucks.configure('views', {
   watch: true,
 });
 
-const skipLog = (req) => {
-  let uri;
-  if (req.url.indexOf('?') > 0) {
-    uri = req.url.substr(0, req.url.indexOf('?'));
-  } else {
-    uri = req.url;
-  }
-  if (uri.match(/(js|map|jpg|png|ico|css|woff|woff2|eot)$/ig)) {
-    return true;
-  }
-  return false;
-};
+// Set the log directory
+const logDirectory = path.join(__dirname, 'logs');
 
-const logStream = log => fs.createWriteStream(log, { flags: 'a' });
+// Ensure the log directory exists
+if (!fs.existsSync(logDirectory)) {
+  fs.mkdirSync(logDirectory);
+}
 
-// Dev log
-app.use(logger('dev'));
-
-// Error log
-app.use(logger('combined', {
-  skip(req, res) { return res.statusCode < 400; },
-  stream: logStream(path.join(__dirname, 'error.log')),
+// Error logging
+app.use(morgan(':method :url :status', {
+  skip: (req, res) => res.statusCode < 400,
+  stream: logger.stream,
 }));
 
-// Access log
-app.use(logger('combined', {
-  skip(req) { return skipLog(req); },
-  stream: logStream(path.join(__dirname, 'access.log')),
+// Access logging
+app.use(morgan('combined', {
+  // Skip static files from access logging
+  skip(req) {
+    let uri;
+    if (req.url.indexOf('?') > 0) {
+      uri = req.url.substr(0, req.url.indexOf('?'));
+    } else {
+      uri = req.url;
+    }
+    if (uri.match(/(js|map|jpg|png|ico|css|woff|woff2|eot)$/ig)) {
+      return true;
+    }
+    return false;
+  },
+  stream: rfs('access.log', {
+    interval: '1d',
+    path: logDirectory,
+  }),
 }));
 
+// Serve static assets
 app.use(express.static(path.join(__dirname, './assets/dist')));
+
+// Routes
 app.use('/', routes);
 
-// debug('a user connected'); debug('user disconnected');
+// Web sockets
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  debug('a user connected');
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    debug('user disconnected');
   });
 });
 
+// Not found handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handler
+// Error handler
 app.use((err, req, res) => {
+  logger.error('error');
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
@@ -80,8 +93,7 @@ app.use((err, req, res) => {
   });
 });
 
-app.set('port', process.env.PORT || 3002);
-
+// Listen for requests
 server.listen(app.get('port'), () => {
   debug(`Express server listening on port ${server.address().port}`);
 });
