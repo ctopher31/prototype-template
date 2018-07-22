@@ -1,16 +1,14 @@
-// RoutesJs
-const express = require('express');
-const home = require('../controllers/home');
-
-const router = express.Router();
+// Home Routes
+const router = require('express').Router();
+const { index, about, contact } = require('../controllers/home');
 
 /* GET home page. */
-router.get('/', (req, res) => home.index(req, res));
+router.get('/', (req, res) => index(req, res));
 
 /* GET home page. */
-router.get('/home/about', (req, res) => home.about(req, res));
+router.get('/about-us', (req, res) => about(req, res));
 
 /* GET home page. */
-router.get('/home/contact', (req, res) => home.contact(req, res));
+router.get('/contact-us', (req, res) => contact(req, res));
 
 module.exports = router;

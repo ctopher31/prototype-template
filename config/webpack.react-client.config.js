@@ -12,7 +12,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: require.resolve('./assets/src/js/components/index.js'),
+        test: require.resolve('../assets/src/js/components/index.js'),
         use: [
           {
             loader: 'babel-loader',

@@ -5,8 +5,8 @@
   "private": true,
   "main": "gulpfile.js",
   "scripts": {
-    "start": "node app",
-    "devstart": "DEBUG=app nodemon app",
+    "start": "node server",
+    "devstart": "DEBUG=app nodemon server",
     "test": "mocha --compilers js:babel-core/register --require ./tests/setup.js ./tests/**/*.spec.js"
   },
   "repository": {

@@ -23,9 +23,9 @@ FilterSelectionListItem.propTypes = {
 
 const FilterSelectionList = ({ filter, filterClick, productRatingImagePath }) => (
   <ul role="menu" id={`${filter.name.toLowerCase().replace(/[\s]+/g, '-')}-selection-list`} className={`list-unstyled filter-selection-list ${filter.name.toLowerCase().replace(/[\s]+/g, '-')}-selection-list`}>
-    {filter.options.map(option => (
+    {filter.options.length > 0 ? filter.options.map(option => (
       <FilterSelectionListItem key={option.id} filter={filter} option={option} filterClick={filterClick} productRatingImagePath={productRatingImagePath} />
-    ))}
+    )) : ''}
   </ul>
 );
 

@@ -2,7 +2,7 @@
 {% extends "../layouts/layout.njk" %}
 {% set description = 'Prototype Template' %}
 {% block meta %}{% endblock %}
-{% set title = 'Prototype Template' %}
+{% set title = 'Media Gallery' %}
 {% block links %}{% endblock %}
 {% block scripts %}
 {# <script crossorigin src="https://unpkg.com/react/umd/react.development.js"></script>
@@ -24,7 +24,6 @@
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 grid-col-sm-offset-3">
           <div class="grid-col">
             <h1 class="page-heading">{{ heading }}</h1>
-            <h3>This is a test of pulling swatches from Widen</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           </div>
         </div>
@@ -32,7 +31,7 @@
     </div>
   </section>
 
-  <section id="visualization-root" class="visualization-section"></section>
+  <section id="visualization-root" class="visualization-section">{{ gallery|safe }}</section>
 </main>
 <!-- Content -->
 

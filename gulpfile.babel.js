@@ -1,10 +1,10 @@
 import gulp from 'gulp';
 // import replace from 'replace-in-file';
 import { runServer, buildTemplates, buildJs, buildSass, lintScss, lintJs, testJs } from './task-util';
-import config from './project-config';
-import webpackConfig from './webpack.config';
-import webpackClientConfig from './webpack.react-client.config';
-import webpackServerConfig from './webpack.react-server.config';
+import config from './config/project-config';
+import webpackConfig from './config/webpack.config';
+import webpackClientConfig from './config/webpack.react-client.config';
+import webpackServerConfig from './config/webpack.react-server.config';
 
 /* eslint-disable no-console */
 

@@ -4,16 +4,14 @@ const fs = require('fs');
 const morgan = require('morgan');
 const express = require('express');
 const nunjucks = require('nunjucks');
-const rfs = require('rotating-file-stream');
 
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const debug = require('debug')('app');
-const logger = require('./config/winston');
 
-// Get app modules
-const routes = require('./routes');
+const { accessLogger, errorLogger } = require('./config/winston');
+const routes = require('./routes/');
 
 // Set environment
 app.set('port', process.env.PORT || 3002);
@@ -35,31 +33,29 @@ if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory);
 }
 
-// Error logging
-app.use(morgan(':method :url :status', {
-  skip: (req, res) => res.statusCode < 400,
-  stream: logger.stream,
-}));
-
 // Access logging
-app.use(morgan('combined', {
+app.use(morgan(':status -- "HTTP/:http-version :method :url" -- ":remote-addr" -- ":response-time[3]" -- ":referrer" -- ":user-agent"', {
   // Skip static files from access logging
   skip(req) {
-    let uri;
+    let noParamsUrl;
     if (req.url.indexOf('?') > 0) {
-      uri = req.url.substr(0, req.url.indexOf('?'));
+      noParamsUrl = req.url.substr(0, req.url.indexOf('?'));
     } else {
-      uri = req.url;
+      noParamsUrl = req.url;
     }
-    if (uri.match(/(js|map|jpg|png|ico|css|woff|woff2|eot)$/ig)) {
+    if (noParamsUrl.match(/(js|map|jpg|png|ico|css|woff|woff2|eot)$/ig)) {
       return true;
     }
     return false;
   },
-  stream: rfs('access.log', {
-    interval: '1d',
-    path: logDirectory,
-  }),
+  stream: accessLogger.stream,
+}));
+app.use(morgan('dev'));
+
+// Error logging
+app.use(morgan(':status -- "HTTP/:http-version :method :url" -- ":remote-addr" -- ":response-time[3]" -- ":referrer" -- ":user-agent"', {
+  skip: (req, res) => res.statusCode < 400,
+  stream: errorLogger.stream,
 }));
 
 // Serve static assets
@@ -84,13 +80,22 @@ app.use((req, res, next) => {
 });
 
 // Error handler
-app.use((err, req, res) => {
-  logger.error('error');
+app.use((err, req, res, next) => {
+  debug('There was an error');
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // add this line to include winston logging
+  errorLogger.error(`${err.status || 500} -- ${err.message} -- ${req.originalUrl} -- ${req.method} --${req.ip}`);
+
+  // render the error page
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
     error: err,
   });
+  next(err);
 });
 
 // Listen for requests

@@ -1,4 +1,9 @@
 // Routes
+const router = require('express').Router();
 const home = require('./home');
+const mediaGallery = require('./media-gallery');
 
-module.exports = home;
+router.use('/', home);
+router.use('/media-gallery', mediaGallery);
+
+module.exports = router;
