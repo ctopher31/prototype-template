@@ -6,7 +6,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "start": "node server",
-    "devstart": "DEBUG=app nodemon server",
+    "devstart": "DEBUG=app nodemon server --trace-sync-io",
     "test": "mocha --compilers js:babel-core/register --require ./tests/setup.js ./tests/**/*.spec.js"
   },
   "repository": {
@@ -83,8 +83,10 @@
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-polyfill": "^6.26.0",
+    "compression": "^1.7.3",
     "express": "^4.16.3",
     "feature-detect-es6": "^1.4.0",
+    "helmet": "^3.12.2",
     "immutable": "^3.8.2",
     "morgan": "^1.9.0",
     "nunjucks": "^3.1.3",

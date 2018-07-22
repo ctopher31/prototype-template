@@ -4,6 +4,8 @@ const fs = require('fs');
 const morgan = require('morgan');
 const express = require('express');
 const nunjucks = require('nunjucks');
+const compression = require('compression');
+const helmet = require('helmet');
 
 const app = express();
 const server = require('http').Server(app);
@@ -57,6 +59,10 @@ app.use(morgan(':status -- "HTTP/:http-version :method :url" -- ":remote-addr" -
   skip: (req, res) => res.statusCode < 400,
   stream: errorLogger.stream,
 }));
+
+// Add compresssion and security headers
+app.use(helmet());
+app.use(compression());
 
 // Serve static assets
 app.use(express.static(path.join(__dirname, './assets/dist')));
