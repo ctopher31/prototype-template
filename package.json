@@ -30,6 +30,8 @@
     "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
     "babel-minify-webpack-plugin": "^0.2.0",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2017": "^6.24.1",
     "babel-preset-react": "^6.24.1",
@@ -80,8 +82,6 @@
     "webpack-stream": "^4.0.3"
   },
   "dependencies": {
-    "babel-plugin-syntax-async-functions": "^6.13.0",
-    "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "compression": "^1.7.3",
     "express": "^4.16.3",
@@ -97,7 +97,6 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "replace-in-file": "^3.4.0",
-    "rotating-file-stream": "^1.3.7",
     "socket.io": "^2.1.1",
     "underscore": "^1.9.0",
     "winston": "^3.0.0"
