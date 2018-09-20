@@ -1,7 +1,4 @@
-// Webpack Server Side Render Config
-import Webpack from 'webpack';
-import MinifyPlugin from 'babel-minify-webpack-plugin';
-
+// Webpack Client Side Render Config
 module.exports = {
   entry: {
     src: '',
@@ -47,14 +44,12 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              presets: ['env'],
+              presets: ['env', 'minify'],
               sourceMap: true,
             },
           },
         ],
       },
-      // Uncomment this if you want to use your own version of React instead of the version
-      // bundled with ReactJS.NET.
       {
         test: require.resolve('react'),
         use: {
@@ -70,14 +65,7 @@ module.exports = {
   externals: {
     react: 'React',
   },
-  plugins: [
-    new Webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-      },
-    }),
-    new MinifyPlugin(),
-  ],
+  mode: 'production',
   stats: {
     colors: true,
   },

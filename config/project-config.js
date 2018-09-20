@@ -1,5 +1,5 @@
 // Project Config for Task Runner
-const config = {
+module.exports = {
   paths: {
     sass: {
       bundleSass: {
@@ -8,8 +8,8 @@ const config = {
         dest: './assets/dist/css',
         filename: 'styles',
         version: '1-0',
-        build: '1',
-        files: [],
+        build: '2',
+        files: ['./views/layouts/layout.njk'],
       },
     },
     js: {
@@ -20,8 +20,8 @@ const config = {
         dest: './assets/dist/js',
         filename: 'app',
         version: '1-0',
-        build: '1',
-        files: [],
+        build: '2',
+        files: ['./views/layouts/layout.njk'],
         tests: ['./tests/test.spec.js'],
       },
       polyfillJs: {
@@ -31,7 +31,7 @@ const config = {
         filename: 'polyfill',
         version: '1-0',
         build: '1',
-        files: [],
+        files: ['./views/layouts/layout.njk'],
         tests: '',
       },
       clientRenderJs: {
@@ -64,5 +64,3 @@ const config = {
     },
   },
 };
-
-export default config;

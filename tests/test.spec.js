@@ -1,8 +1,8 @@
 // Index Spec
-import { after, afterEach, before, beforeEach, describe, it } from 'mocha';
-import chai, { assert, expect, should } from 'chai';
-import sinon, { mock, spy, stub } from 'sinon';
-import { JSDOM } from 'jsdom';
+const { after, afterEach, before, beforeEach, describe, it }  = require('mocha');
+const { assert, expect, should }  = require('chai');
+const { mock, spy, stub }  = require('sinon');
+const { JSDOM }  = require('jsdom');
 
 describe('Testing Function Test', () => {
   describe('Test Spec', () => {

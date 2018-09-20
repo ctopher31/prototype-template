@@ -1,6 +1,6 @@
 // setup.js
-import chai from 'chai';
-import { JSDOM } from 'jsdom';
+const chai  = require('chai');
+const { JSDOM }  = require('jsdom');
 
 const jsdom = new JSDOM('<!DOCTYPE html><html><body></body></html>', { runScripts: 'dangerously' });
 const { window } = jsdom;

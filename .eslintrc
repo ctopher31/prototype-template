@@ -3,6 +3,7 @@
   "globals": {
     "document": false,
     "fetch": false,
+    "Headers": false,
     "navigator":  false,
     "window": false,
     "$": false,

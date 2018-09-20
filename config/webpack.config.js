@@ -1,8 +1,5 @@
 // Webpack Options
-import webpack from 'webpack';
-import MinifyPlugin from 'babel-minify-webpack-plugin';
-
-const webpackConfig = {
+module.exports = {
   entry: {
     src: '',
   },
@@ -12,26 +9,13 @@ const webpackConfig = {
   module: {
     rules: [
       {
-        test: /\.jsx$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: ['env', 'react'],
-              sourceMap: true,
-            },
-          },
-        ],
-      },
-      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: [
           {
             loader: 'babel-loader',
             options: {
-              presets: ['env'],
+              presets: ['env', 'minify'],
               sourceMap: true,
             },
           },
@@ -40,20 +24,11 @@ const webpackConfig = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js'],
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-      },
-    }),
-    new MinifyPlugin(),
-  ],
+  mode: 'production',
   stats: {
     colors: true,
   },
   devtool: 'source-map',
 };
-
-export default webpackConfig;
