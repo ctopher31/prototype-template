@@ -2,3 +2,6 @@
 thumbs.db
 node_modules/
 *.log
+.vscode
+hint-report
+config/database-config.js
