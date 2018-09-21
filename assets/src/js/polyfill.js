@@ -3,7 +3,7 @@ import detect from 'feature-detect-es6';
 
 detect.fetch = () => {
   try {
-    eval('fetch');
+    eval('fetch'); /* eslint-disable-line no-eval */
     return true;
   } catch (err) {
     return false;
