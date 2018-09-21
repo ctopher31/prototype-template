@@ -178,12 +178,18 @@ gulp.task('buildBundleSass', async () => {
 
 // Build Templates ----------------------------------
 gulp.task('buildNunjucks', async () => {
-  await buildTemplates(config.paths.nunjucks.source, config.paths.nunjucks.templates, config.paths.nunjucks.dest).catch(err => console.log(err));
+  const {
+    source,
+    templates,
+    dest,
+  } = config.paths.nunjucks;
+
+  await buildTemplates(source, templates, dest).catch(err => console.log(err));
   console.log('HTML (Nunjucks) Templates Built!');
   browserSync.reload('*.html');
 });
 
-gulp.task('watch', ['watchBundleSass', 'watchBundleJs', 'watchTestJs']);
+gulp.task('watch', ['serve', 'watchBundleSass', 'watchBundleJs', 'watchTestJs']);
 
 gulp.task('watchBundleJs', () => gulp.watch(bundleJs.watch, ['buildBundleJs']).on('change', () => console.log('Bundle JS Changed!')));
 
@@ -238,6 +244,6 @@ gulp.task('serve', () => {
   });
 });
 
-gulp.task('default', ['build', 'serve', 'watch'], () => console.log('Gulp started'));
+gulp.task('default', ['build', 'watch'], () => console.log('Gulp started'));
 
 module.exports = gulp;
