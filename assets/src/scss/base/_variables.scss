@@ -1,0 +1,77 @@
+// Variables
+// Grid and Baseline -----------------------------------------------------------
+// Baseline
+$baseline: 1.625rem;
+
+// Grid breakpoints
+$breakpoints: ('xs', 'sm', 'md', 'lg', 'xl', 'xxl');
+
+$sm-width: 33.75rem;
+$md-width: 48rem;
+$lg-width: 62rem;
+$xl-width: 75rem;
+$xxl-width: 87.75rem;
+
+// Grid Columns
+$columns: 12;
+
+// Typography ------------------------------------------------------------------
+// Primary font
+$primary-font-family: 'Helvetica Neue', Helvetica, sans-serif;
+
+// Primary Font size
+$primary-font-size: 1rem;
+
+// Primary Font weights
+$primary-font-weight-light: 300;
+$primary-font-weight: 500;
+$primary-font-weight-bold: 700;
+
+// Heading font
+$heading-font: 'Helvetica Neue', Helvetica, sans-serif;
+
+// Heading Font size
+$heading-font-size: 1rem;
+
+// Heading Font weights
+$heading-font-weight-light: 300;
+$heading-font-weight: 500;
+$heading-font-weight-bold: 700;
+
+// Color Palette ---------------------------------------------------------------
+// Color Sceme: 3 color palette with shades/tints and gray scale
+// Brand primary colors
+$brand-primary-color-1: #e92732;
+
+$brand-primary-color-1-shade-1: #b01d26;
+$brand-primary-color-1-shade-2: #691217;
+$brand-primary-color-1-shade-3: #f62935;
+$brand-primary-color-1-shade-4: #e32631;
+
+$brand-primary-color-1-tint-1: #9385bd;
+$brand-primary-color-1-tint-2: #ada3cd;
+$brand-primary-color-1-tint-3: #c7c1dd;
+
+$brand-primary-color-2: #000104;
+
+$brand-primary-color-3: #fff;
+
+// Gray Scale
+$base-black: #212121;
+$base-gray-dark3: #373737;
+$base-gray-dark2: #575757;
+$base-gray-dark1: #656565;
+$base-gray-mid: #767676;
+$base-gray-light1: #979797;
+$base-gray-light2: #c9c9c9;
+$base-gray-light3: #f8f8f8;
+$base-white: #fff;
+
+// Error, warning, success, and info colors
+$brand-error-color: #cb3834;
+$brand-warning-color: #feca3f;
+$brand-success-color: #45a256;
+$brand-info-color: #09c;
+
+// Grid-baseline grid color: buildGrid();
+$grid-baseline-red: #f00;

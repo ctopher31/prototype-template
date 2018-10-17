@@ -9,14 +9,14 @@ const postcss = require('postcss');
 const autoprefixer = require('autoprefixer');
 const nunjucks = require('nunjucks');
 
-const buildJs = ({ source, dest, filename, version, build }, webpackConfig) => new Promise((resolve, reject) => {
+const buildJs = ({ source, dest, filename }, webpackConfig) => new Promise((resolve, reject) => {
   webpack(Object.assign({}, webpackConfig, {
     entry: {
       source,
     },
     output: {
       path: path.resolve(dest),
-      filename: `${filename}.v${version}-${build}.min.js`,
+      filename: `${filename}${webpackConfig.output.filename}`,
     },
   }), (err, stats) => {
     if (err) {
@@ -59,24 +59,32 @@ const testJs = src => new Promise((resolve, reject) => {
   }
 });
 
-const buildSass = ({ source, dest, filename, version, build }) => new Promise((resolve, reject) => {
+const buildSass = ({ file, includePaths, outputStyle, sourceMap, outFile }) => new Promise((resolve, reject) => {
   sass.render({
-    file: source,
-    includePaths: ['./base', './layout', './modules', './state', './theme'],
-    outFile: `${dest}${filename}.v${version}-${build}.min.css`,
-    outputStyle: 'compressed',
-    sourceMap: true,
+    file,
+    includePaths,
+    outFile,
+    outputStyle,
+    sourceMap,
   }, async (err, result) => {
     if (err) {
       reject(new Error(`Error building bundleSass: ${err}`));
     }
-    fs.writeFileSync(`${dest}/${filename}.v${version}-${build}.min.css`, await postcss([autoprefixer]).process(result.css.toString(), { from: source }));
-    fs.writeFileSync(`${dest}/${filename}.v${version}-${build}.min.css.map`, result.map.toString());
-    resolve(result);
+    const postCssResult = await postcss([autoprefixer]).process(result.css.toString(), {
+      from: file,
+      to: outFile,
+      map: {
+        inline: false,
+        prev: result.map.toString(),
+      },
+    }).catch(postCssErr => reject(new Error(`Error with postcss: ${postCssErr}`)));
+    fs.writeFileSync(outFile, postCssResult.css.toString());
+    fs.writeFileSync(`${outFile}.map`, postCssResult.map.toString());
+    resolve(postCssResult);
   });
 });
 
-const getDirectoryContentsRecursively = (src) => {
+const getTemplateContent = (src) => {
   const dirContents = fs.readdirSync(path.join(__dirname, src), 'utf8');
 
   return dirContents.map((file) => {
@@ -84,7 +92,7 @@ const getDirectoryContentsRecursively = (src) => {
       return {
         type: 'directory',
         name: file,
-        items: getDirectoryContentsRecursively(`${src}/${file}`),
+        items: getTemplateContent(`${src}/${file}`),
       };
     }
     return {
@@ -95,36 +103,36 @@ const getDirectoryContentsRecursively = (src) => {
   });
 };
 
-const buildTemplates = (src, templates, dest) => new Promise(async (resolve, reject) => {
-  try {
-    const loader = new nunjucks.FileSystemLoader([path.join(__dirname, src), path.join(__dirname, templates)]);
-    const env = new nunjucks.Environment([loader]);
-
-    const contents = {
-      type: 'directory',
-      name: dest,
-      items: getDirectoryContentsRecursively(src),
-    };
-
-    contents.items.map((item) => {
-      if (item.type === 'directory') {
-        try {
-          fs.statSync(path.join(__dirname, `${contents.name}/${item.name}`));
-        } catch (err) {
-          fs.mkdirSync(path.join(__dirname, `${contents.name}/${item.name}`));
-        }
-        item.items.map((item2) => {
-          fs.writeFileSync(`${path.join(__dirname, `${contents.name}/${item.name}`)}/${item2.name.split('.')[0]}.html`, env.renderString(item2.contents), 'utf8');
-          return false;
-        });
-      } else {
-        fs.writeFileSync(`${path.join(__dirname, contents.name)}/${item.name.split('.')[0]}.html`, env.renderString(item.contents), 'utf8');
-        return false;
+const writeHtml = (items, renderer, dest) => {
+  items.map((item) => {
+    if (item.type === 'directory') {
+      try {
+        fs.statSync(path.join(__dirname, `${dest}/${item.name}`));
+      } catch (err) {
+        fs.mkdirSync(path.join(__dirname, `${dest}/${item.name}`));
       }
-      return false;
-    });
+      writeHtml(item.items, renderer, `${dest}/${item.name}`);
+      return item;
+    }
+    fs.writeFileSync(`${path.join(__dirname, dest)}/${item.name.split('.')[0]}.html`, renderer.renderString(item.contents), 'utf8');
+    return item;
+  });
+};
 
-    resolve(contents);
+// Template engine implementation (Nunjucks)
+const templateEngine = (src, templates) => ({
+  // create instance of engine
+  engine: new nunjucks.Environment([new nunjucks.FileSystemLoader([path.join(__dirname, src), path.join(__dirname, templates)])]),
+
+  // render the engine output as a string
+  renderString(contents) {
+    return this.engine.renderString(contents);
+  },
+});
+
+const buildTemplates = (src, templates, dest) => new Promise((resolve, reject) => {
+  try {
+    resolve(writeHtml(getTemplateContent(src), templateEngine(src, templates), dest));
   } catch (reason) {
     reject(new Error(reason));
   }

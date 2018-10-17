@@ -16,21 +16,15 @@
   @extend %container-base-styles;
 
   @include sm {
-    /* stylelint-disable unit-whitelist */
-    width: $sm-width - $baseline-pixels;
-    /* stylelint-enable unit-whitelist */
+    width: $sm-width - $baseline; /* stylelint-disable-line unit-whitelist */
   }
 
   @include md {
-    /* stylelint-disable unit-whitelist */
-    width: $md-width - $baseline-pixels;
-    /* stylelint-enable unit-whitelist */
+    width: $md-width - $baseline; /* stylelint-disable-line unit-whitelist */
   }
 
   @include lg {
-    /* stylelint-disable unit-whitelist */
-    width: $lg-width - $baseline-pixels;
-    /* stylelint-enable unit-whitelist */
+    width: $lg-width - $baseline; /* stylelint-disable-line unit-whitelist */
   }
 }
 
@@ -54,7 +48,7 @@
   @supports (display: grid) {
     display: grid;
     grid-column-gap: $baseline;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat($columns, 1fr);
     margin: 0 auto;
   }
 }
@@ -82,8 +76,8 @@
       @extend %column-styles;
     }
 
-    @include build-offsets($item, $i);
+    @include build-offsets($item, $i, $columns);
 
-    @include build-grid($item, $i);
+    @include build-grid($item, $i, $columns);
   }
 }

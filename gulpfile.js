@@ -32,6 +32,7 @@ gulp.task('buildBundleJs', async () => {
   const {
     build,
     dest,
+    filename,
     files,
     tests,
     version,
@@ -45,8 +46,8 @@ gulp.task('buildBundleJs', async () => {
     const buildResults = await buildJs(bundleJs, webpackConfig).catch(error => console.log(error));
     const changedFiles = await replace({
       files,
-      from: /app\.([v\d.-]+)\.min\.js/g,
-      to: `app.v${version}-${build}.min.js`,
+      from: /app\.min\.js[?=v\d.-]*/g,
+      to: `${filename}${webpackConfig.output.filename}?=v${version}.${build}-${Math.round(new Date().getTime() / 1000)}`,
     }).catch(error => console.log(error));
     console.log('Modified Files:', changedFiles.join(','));
     console.log(`${buildResults.stats.toString({ colors: true })}\n`);
@@ -64,6 +65,7 @@ gulp.task('buildPolyfillJs', async () => {
   const {
     build,
     dest,
+    filename,
     files,
     tests,
     version,
@@ -77,8 +79,8 @@ gulp.task('buildPolyfillJs', async () => {
     const buildResults = await buildJs(polyfillJs, webpackConfig).catch(error => console.log(error));
     const changedFiles = await replace({
       files,
-      from: /polyfill\.([v\d.-]+)\.min\.js/g,
-      to: `polyfill.v${version}-${build}.min.js`,
+      from: /polyfill\.min\.js[?=v\d.-]*/g,
+      to: `${filename}${webpackConfig.output.filename}?=v${version}.${build}-${Math.round(new Date().getTime() / 1000)}`,
     }).catch(error => console.log(error));
     console.log('Modified Files:', changedFiles.join(','));
     console.log(`${buildResults.stats.toString({ colors: true })}\n`);
@@ -161,14 +163,14 @@ gulp.task('buildBundleSass', async () => {
     await buildSass(bundleSass).catch(error => console.log(error));
     const changedFiles = await replace({
       files,
-      from: /styles\.([v\d.-]+)\.min\.css/g,
-      to: `styles.v${version}-${build}.min.css`,
+      from: /styles\.min\.css[?=v\d.-]*/g,
+      to: `${filename}.min.css?=v${version}.${build}-${Math.round(new Date().getTime() / 1000)}`,
     }).catch(error => console.log(error));
     console.log('Modified Files:', changedFiles.join(','));
     console.log(`Output destination: ${path.resolve()}/${dest}`);
     console.log(`Bundle CSS Built! ${new Date().toLocaleTimeString()}`);
-    console.log(chalk.green(path.join(__dirname, `${dest}/${filename}.v${version}-${build}.min.css`)));
-    console.log(chalk.green(path.join(__dirname, `${dest}/${filename}.v${version}-${build}.min.css.map`)));
+    console.log(chalk.green(path.join(__dirname, `${dest}/${filename}.min.css`)));
+    console.log(chalk.green(path.join(__dirname, `${dest}/${filename}.min.css.map`)));
     browserSync.reload('*.css');
     console.log('\n');
   } else {
@@ -189,7 +191,7 @@ gulp.task('buildNunjucks', async () => {
   browserSync.reload('*.html');
 });
 
-gulp.task('watch', ['serve', 'watchBundleSass', 'watchBundleJs', 'watchTestJs']);
+gulp.task('watch', ['serve', 'watchBundleSass', 'watchBundleJs', 'watchTestJs', 'watchNunjucks']);
 
 gulp.task('watchBundleJs', () => gulp.watch(bundleJs.watch, ['buildBundleJs']).on('change', () => console.log('Bundle JS Changed!')));
 
@@ -203,6 +205,11 @@ gulp.task('watchTestJs', () => gulp.watch(config.paths.js.tests).on('change', ()
 
 gulp.task('watchBundleSass', () => gulp.watch(bundleSass.watch, ['buildBundleSass']).on('change', () => console.log('Styles CSS Changed!')));
 
+gulp.task('watchNunjucks', () => gulp.watch(config.paths.nunjucks.source).on('change', () => {
+  console.log('Nunjucks changed!');
+  browserSync.reload();
+}));
+
 gulp.task('serve', () => {
   nodemon({
     env: {
@@ -211,12 +218,19 @@ gulp.task('serve', () => {
     ext: 'js, json',
     ignore: [
       '.git',
-      'gulpfile',
-      'node_modules',
-      'assets',
+      'gulpfile.js',
+      'node_modules/',
+      'assets/',
     ],
     script: 'server.js',
     verbose: true,
+    watch: [
+      'server.js',
+      'config/**/*.js',
+      'routes/**/*.js',
+      'controllers/**/*.js',
+      'models/**/*.js',
+    ],
   });
 
   browserSync.init({
@@ -232,7 +246,8 @@ gulp.task('serve', () => {
     console.log('App started');
     if (browserSync.paused) {
       browserSync.resume();
-      browserSync.reload();
+      // adjust this time as needed to keep browsersync from hanging up
+      setTimeout(() => browserSync.reload(), 300);
     }
   }).on('quit', () => {
     browserSync.exit();

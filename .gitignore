@@ -1,7 +1,10 @@
 .DS_STORE
+build/
 thumbs.db
 node_modules/
 *.log
 .vscode
+.stylelintcache
+.eslintcache
 hint-report
 config/database-config.js

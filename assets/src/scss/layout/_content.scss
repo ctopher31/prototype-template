@@ -10,7 +10,7 @@
 }
 
 .grid-col {
-  border: .1rem solid #5b5b5b;
+  border: .0625rem solid #5b5b5b;
   height: calc(100% - 3rem);
   margin-bottom: $baseline * 2;
 
@@ -22,6 +22,6 @@
 .intro-section {
 
   .grid-col {
-    padding: 5.1rem;
+    padding: 3.1875rem;
   }
 }

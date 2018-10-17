@@ -1,0 +1,188 @@
+// Mixins
+// Grid mixins
+@mixin xs {
+  @media (max-width: #{$sm-width - round(1rem / 16)}) { /* stylelint-disable-line unit-whitelist */
+    @content;
+  }
+}
+
+@mixin sm-only {
+  @media (min-width: #{$sm-width}) and (max-width: #{$md-width - round(1rem / 16)}) { /* stylelint-disable-line unit-whitelist */
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (min-width: #{$sm-width}) {
+    @content;
+  }
+}
+
+@mixin md-only {
+  @media (min-width: #{$md-width}) and (max-width: #{$lg-width - round(1rem / 16)}) { /* stylelint-disable-line unit-whitelist */
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: #{$md-width}) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: #{$lg-width}) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: #{$xl-width}) {
+    @content;
+  }
+}
+
+@mixin xxl {
+  @media (min-width: #{$xxl-width}) {
+    @content;
+  }
+}
+
+@mixin grid-column($column-span, $columns) {
+  width: ($column-span / $columns) * 100 + 0%;
+
+  @supports (display: grid) {
+    grid-column-end: span $column-span;
+    grid-column-start: auto;
+    width: initial;
+  }
+}
+
+@mixin build-grid($grid-breakpoint, $grid-span, $columns) {
+
+  .col-#{$grid-breakpoint}-#{$grid-span} {
+
+    @if $grid-breakpoint == 'sm' {
+      @include sm {
+        @include grid-column($grid-span, $columns);
+      }
+    } @else if $grid-breakpoint == 'md' {
+      @include md {
+        @include grid-column($grid-span, $columns);
+      }
+    } @else if $grid-breakpoint == 'lg' {
+      @include lg {
+        @include grid-column($grid-span, $columns);
+      }
+    } @else if $grid-breakpoint == 'xl' {
+      @include lg {
+        @include grid-column($grid-span, $columns);
+      }
+    } @else if $grid-breakpoint == 'xxl' {
+      @include lg {
+        @include grid-column($grid-span, $columns);
+      }
+    } @else {
+      @include xs {
+        @include grid-column($grid-span, $columns);
+      }
+    }
+  }
+}
+
+@mixin grid-column-offset($column-start, $columns) {
+  margin-left: ($column-start / $columns) * 100 + 0%;
+
+  @supports (display: grid) {
+    grid-column-start: $column-start + 1 !important; /* stylelint-disable-line declaration-no-important */
+    margin: 0;
+  }
+}
+
+@mixin build-offsets($grid-breakpoint, $grid-start, $columns) {
+
+  .col-#{$grid-breakpoint}-offset-#{$grid-start} {
+
+    @if $grid-breakpoint == 'sm' {
+      @include sm {
+        @include grid-column-offset($grid-start, $columns);
+      }
+    } @else if $grid-breakpoint == 'md' {
+      @include md {
+        @include grid-column-offset($grid-start, $columns);
+      }
+    } @else if $grid-breakpoint == 'lg' {
+      @include lg {
+        @include grid-column-offset($grid-start, $columns);
+      }
+    } @else if $grid-breakpoint == 'xl' {
+      @include lg {
+        @include grid-column-offset($grid-start, $columns);
+      }
+    } @else if $grid-breakpoint == 'xxl' {
+      @include lg {
+        @include grid-column-offset($grid-start, $columns);
+      }
+    } @else {
+      @include xs {
+        @include grid-column-offset($grid-start, $columns);
+      }
+    }
+  }
+}
+
+// Font mixins
+@mixin font-size-300 {
+  font-size: $primary-font-size * 3; // 48px
+  line-height: $baseline * 2; // 52px
+}
+
+@mixin font-size-250 {
+  font-size: $primary-font-size * 2.5; // 40px
+  line-height: $baseline * 2; // 52px
+}
+
+@mixin font-size-225 {
+  font-size: $primary-font-size * 2.25; // 36px
+  line-height: $baseline * 2; // 52px
+}
+
+@mixin font-size-200 {
+  font-size: $primary-font-size * 2; // 32px
+  line-height: $baseline * 2; // 52px
+}
+
+@mixin font-size-175 {
+  font-size: $primary-font-size * 1.75; // 28px
+  line-height: $baseline * 1; // 26px
+}
+
+@mixin font-size-150 {
+  font-size: $primary-font-size * 1.5; // 24px
+  line-height: $baseline * 1; // 26px
+}
+
+@mixin font-size-125 {
+  font-size: $primary-font-size * 1.25; // 20px
+  line-height: $baseline * 1; // 26px
+}
+
+@mixin font-size-1125 {
+  font-size: $primary-font-size * 1.125; // 18px
+  line-height: $baseline * 1; // 26px
+}
+
+@mixin font-size-0875 {
+  font-size: $primary-font-size * .875; // 14px
+  line-height: $baseline * 1; // 26px
+}
+
+@mixin font-size-0750 {
+  font-size: $primary-font-size * .75; // 12px
+  line-height: $baseline * 1; // 26px
+}
+
+@mixin font-size-0625 {
+  font-size: $primary-font-size * .625; // 10px
+  line-height: $baseline * 1; // 26px
+}
