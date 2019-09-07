@@ -17,6 +17,13 @@ $columns: 12;
 
 // Typography ------------------------------------------------------------------
 // Primary font
+$base-font-size: 16px; // stylelint-disable-line
+$base-line-height: 1.5;
+
+// this value may vary for each font
+// unitless value relative to 1em
+$cap-height: .68;
+
 $primary-font-family: 'Helvetica Neue', Helvetica, sans-serif;
 
 // Primary Font size

@@ -25,8 +25,6 @@ const {
   bundleSass,
 } = config.paths.sass;
 
-gulp.task('build', ['buildBundleJs', 'buildBundleSass']);
-
 // Build JS ----------------------------------
 gulp.task('buildBundleJs', async () => {
   const {
@@ -191,30 +189,14 @@ gulp.task('buildNunjucks', async () => {
   browserSync.reload('*.html');
 });
 
-gulp.task('watch', ['serve', 'watchBundleSass', 'watchBundleJs', 'watchTestJs', 'watchNunjucks']);
+gulp.task('default', ['watch'], () => {
+  console.log('Gulp started');
 
-gulp.task('watchBundleJs', () => gulp.watch(bundleJs.watch, ['buildBundleJs']).on('change', () => console.log('Bundle JS Changed!')));
-
-gulp.task('watchPolyfillJs', () => gulp.watch(polyfillJs.watch, ['buildPolyfillJs']).on('change', () => console.log('Polyfill JS Changed!')));
-
-gulp.task('watchClientRenderJs', () => gulp.watch(clientRenderJs.watch, ['buildClientRenderJs']).on('change', () => console.log('ClientRender JS Changed!')));
-
-gulp.task('watchServerSideRenderJs', () => gulp.watch(serverSideRenderJs.watch, ['buildServerSideRenderJs']).on('change', () => console.log('ServerSideRender JS Changed!')));
-
-gulp.task('watchTestJs', () => gulp.watch(config.paths.js.tests).on('change', () => console.log('Test JS Run!')));
-
-gulp.task('watchBundleSass', () => gulp.watch(bundleSass.watch, ['buildBundleSass']).on('change', () => console.log('Styles CSS Changed!')));
-
-gulp.task('watchNunjucks', () => gulp.watch(config.paths.nunjucks.source).on('change', () => {
-  console.log('Nunjucks changed!');
-  browserSync.reload();
-}));
-
-gulp.task('serve', () => {
   nodemon({
     env: {
       NODE_ENV: 'development',
     },
+    inspect: true,
     ext: 'js, json',
     ignore: [
       '.git',
@@ -259,6 +241,23 @@ gulp.task('serve', () => {
   });
 });
 
-gulp.task('default', ['build', 'watch'], () => console.log('Gulp started'));
+gulp.task('watch', () => {
+  gulp.watch(bundleJs.watch, ['buildBundleJs']).on('change', () => console.log('Bundle JS Changed!'));
+
+  gulp.watch(polyfillJs.watch, ['buildPolyfillJs']).on('change', () => console.log('Polyfill JS Changed!'));
+
+  gulp.watch(clientRenderJs.watch, ['buildClientRenderJs']).on('change', () => console.log('ClientRender JS Changed!'));
+
+  gulp.watch(serverSideRenderJs.watch, ['buildServerSideRenderJs']).on('change', () => console.log('ServerSideRender JS Changed!'));
+
+  gulp.watch(config.paths.js.tests).on('change', () => console.log('Test JS Run!'));
+
+  gulp.watch(bundleSass.watch, ['buildBundleSass']).on('change', () => console.log('Styles CSS Changed!'));
+
+  gulp.watch(config.paths.nunjucks.source).on('change', () => {
+    console.log('Nunjucks changed!');
+    browserSync.reload();
+  });
+});
 
 module.exports = gulp;

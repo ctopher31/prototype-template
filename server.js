@@ -82,6 +82,10 @@ io.on('connection', (socket) => {
 app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
+  res.render('/not-found', {
+    message: 'Not Found',
+    error: err,
+  });
   next(err);
 });
 
@@ -97,7 +101,7 @@ app.use((err, req, res, next) => {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error', {
+  res.render('/error', {
     message: err.message,
     error: err,
   });

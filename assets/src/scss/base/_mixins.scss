@@ -131,6 +131,26 @@
   }
 }
 
+@mixin baseline($font-size, $scale: 2) {
+
+  // rhythm unit
+  $rhythm: $base-line-height * $font-size / $scale;
+
+  // number of rhythm units that can fit the font-size
+  $lines: ceil(($font-size + .001px) / $rhythm); // stylelint-disable-line
+
+  // calculate the new line-height
+  $line-height: $rhythm * $lines / $font-size;
+
+  $baseline-distance: ($line-height - $cap-height) / 2;
+
+  // use the results
+  font-size: $font-size;
+  line-height: $line-height;
+  margin-bottom: $base-line-height - $baseline-distance + em;
+  padding-top: $baseline-distance + em;
+}
+
 // Font mixins
 @mixin font-size-300 {
   font-size: $primary-font-size * 3; // 48px
@@ -154,7 +174,7 @@
 
 @mixin font-size-175 {
   font-size: $primary-font-size * 1.75; // 28px
-  line-height: $baseline * 1; // 26px
+  line-height: $baseline * 2; // 26px
 }
 
 @mixin font-size-150 {
@@ -169,6 +189,11 @@
 
 @mixin font-size-1125 {
   font-size: $primary-font-size * 1.125; // 18px
+  line-height: $baseline * 1; // 26px
+}
+
+@mixin font-size-1125 {
+  font-size: $primary-font-size; // 16px
   line-height: $baseline * 1; // 26px
 }
 
