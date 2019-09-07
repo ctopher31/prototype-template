@@ -9,7 +9,7 @@ const config = require('../config/database-config');
 const index = async (req, res) => {
   const pool = await mysql.createPool(config);
 
-  const [rows] = await pool.query('SELECT * FROM ProductLines');
+  const [[rows]] = await pool.query('CALL `ProductInformation`.`GetProductLines`()');
   const productLines = rows.map(row => ({
     id: row.ProductLineId,
     name: row.ProductLineName,

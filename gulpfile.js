@@ -26,7 +26,7 @@ const {
 } = config.paths.sass;
 
 // Build JS ----------------------------------
-gulp.task('buildBundleJs', async () => {
+const jsBuildTask = async (bundleName, bundle, wpConfig, updateFilename) => {
   const {
     build,
     dest,
@@ -35,111 +35,53 @@ gulp.task('buildBundleJs', async () => {
     tests,
     version,
     watch,
-  } = bundleJs;
+  } = bundle;
 
   const linterResults = await lintJs(watch).catch(error => console.log(error));
   const testResults = await testJs(tests).catch(error => console.log(error));
 
   if (linterResults.success && testResults.success) {
-    const buildResults = await buildJs(bundleJs, webpackConfig).catch(error => console.log(error));
-    const changedFiles = await replace({
-      files,
-      from: /app\.min\.js[?=v\d.-]*/g,
-      to: `${filename}${webpackConfig.output.filename}?=v${version}.${build}-${Math.round(new Date().getTime() / 1000)}`,
-    }).catch(error => console.log(error));
-    console.log('Modified Files:', changedFiles.join(','));
+    let changedFiles;
+
+    // Build the bundle
+    const buildResults = await buildJs(bundle, wpConfig).catch(error => console.log(error));
+
+    // Update the cache parameter in the filename in the view
+    if (updateFilename) {
+      const filenameRegex = RegExp(`${filename}\\.v([\\d.-]+)\\.min\\.js(\\?cache=([\\d]+)|)`, 'g');
+      changedFiles = await replace({
+        files,
+        from: filenameRegex,
+        to: `${filename}.v${version}-${build}.min.js?cache=${new Date().getTime()}`,
+      }).catch(error => console.log(error));
+    }
+
+    // Log the ouput of the build
+    console.log(chalk.cyan('Modified Files:', (changedFiles !== undefined ? changedFiles.join(',') : '')));
     console.log(`${buildResults.stats.toString({ colors: true })}\n`);
-    console.log(`Output destination: ${path.resolve()}/${dest}`);
-    console.log(`Bundle JS Built! ${new Date().toLocaleTimeString()}`);
-    browserSync.reload('*.js');
+    console.log(chalk.green(`Output destination: ${path.resolve(dest)}`));
+    console.log(chalk.cyan(`${bundleName} has finished running. ${new Date().toLocaleTimeString()}`));
+    browserSync.reload(`${filename}.v${version}-${build}.min.js`);
+    console.log('\n');
   } else {
     console.log(linterResults.formatted);
-    console.log(linterResults ? '' : 'Linter Failed, BundleJs was not built');
-    console.log(testResults.success ? '' : 'Tests Failed, BundleJs was not built');
+    console.log(chalk.yellow(linterResults ? '' : `Linter Failed, ${bundleName} was not built`));
+    console.log(chalk.yellow(testResults.success ? '' : `Tests Failed, ${bundleName} was not built`));
   }
-});
+};
 
-gulp.task('buildPolyfillJs', async () => {
-  const {
-    build,
-    dest,
-    filename,
-    files,
-    tests,
-    version,
-    watch,
-  } = polyfillJs;
+gulp.task('buildBundleJs', () => jsBuildTask('buildBundleJs', bundleJs, webpackConfig, true));
 
-  const linterResults = await lintJs(watch).catch(error => console.log(error));
-  const testResults = await testJs(tests).catch(error => console.log(error));
+gulp.task('buildPolyfillJs', () => jsBuildTask('buildPolyfillJs', polyfillJs, webpackConfig, true));
 
-  if (linterResults.success && testResults.success) {
-    const buildResults = await buildJs(polyfillJs, webpackConfig).catch(error => console.log(error));
-    const changedFiles = await replace({
-      files,
-      from: /polyfill\.min\.js[?=v\d.-]*/g,
-      to: `${filename}${webpackConfig.output.filename}?=v${version}.${build}-${Math.round(new Date().getTime() / 1000)}`,
-    }).catch(error => console.log(error));
-    console.log('Modified Files:', changedFiles.join(','));
-    console.log(`${buildResults.stats.toString({ colors: true })}\n`);
-    console.log(`Output destination: ${path.resolve()}/${dest}`);
-    console.log(`Polyfill JS Built! ${new Date().toLocaleTimeString()}`);
-    browserSync.reload('*.js');
-  } else {
-    console.log(linterResults.formatted);
-    console.log(linterResults ? '' : 'Linter Failed, PolyfillJs was not built');
-    console.log(testResults.success ? '' : 'Tests Failed, PolyfillJs was not built');
-  }
-});
+gulp.task('buildClientRenderJs', () => jsBuildTask('buildClientRenderJs', clientRenderJs, webpackClientConfig, true));
 
-gulp.task('buildClientRenderJs', async () => {
-  const {
-    dest,
-    tests,
-    watch,
-  } = clientRenderJs;
+gulp.task('buildServerSideRenderJs', () => jsBuildTask('buildServerSideRenderJs', serverSideRenderJs, webpackServerConfig, false));
 
-  const linterResults = await lintJs(watch).catch(error => console.log(error));
-  const testResults = await testJs(tests).catch(error => console.log(error));
-
-  if (linterResults.success && testResults.success) {
-    const buildResults = await buildJs(clientRenderJs, webpackClientConfig).catch(error => console.log(error));
-    console.log(`${buildResults.stats.toString({ colors: true })}\n`);
-    console.log(`Output destination: ${path.resolve()}/${dest}`);
-    console.log(`ClientRender JS Rebuilt! ${new Date().toLocaleTimeString()}`);
-    browserSync.reload('*.js');
-  } else {
-    console.log(linterResults.formatted);
-    console.log(linterResults ? '' : 'Linter Failed, SwatchOrderingJs was not built');
-    console.log(testResults.success ? '' : 'Tests Failed, SwatchOrderingJs was not built');
-  }
-});
-
-gulp.task('buildServerSideRenderJs', async () => {
-  const {
-    dest,
-    tests,
-    watch,
-  } = serverSideRenderJs;
-
-  const linterResults = await lintJs(watch).catch(error => console.log(error));
-  const testResults = await testJs(tests).catch(error => console.log(error));
-
-  if (linterResults.success && testResults.success) {
-    const buildResults = await buildJs(serverSideRenderJs, webpackServerConfig).catch(error => console.log(error));
-    console.log(`${buildResults.stats.toString({ colors: true })}\n`);
-    console.log(`Output destination: ${path.resolve()}/${dest}`);
-    console.log(`ServerSideRender JS Rebuilt! ${new Date().toLocaleTimeString()}`);
-    browserSync.reload('*.js');
-  } else {
-    console.log(linterResults.formatted);
-    console.log(linterResults ? '' : 'Linter Failed, SwatchOrderingJs was not built');
-    console.log(testResults.success ? '' : 'Tests Failed, SwatchOrderingJs was not built');
-  }
-});
+// gulp.task('buildVisualizationJs', () => jsBuildTask('buildVisualizationJs', visualizationJs, webpackClientConfig, true));
 
 // Build Sass ----------------------------------
-gulp.task('buildBundleSass', async () => {
+const sassBuildTask = async (bundleName, bundle, updateFilename) => {
   const {
     build,
     dest,
@@ -147,7 +89,7 @@ gulp.task('buildBundleSass', async () => {
     files,
     version,
     watch,
-  } = bundleSass;
+  } = bundle;
 
   const linterResults = await stylelint.lint({
     cache: true,
@@ -157,24 +99,39 @@ gulp.task('buildBundleSass', async () => {
     syntax: 'scss',
   }).catch(error => console.log(error));
   console.log(linterResults.output);
+
   if (!linterResults.errored) {
-    await buildSass(bundleSass).catch(error => console.log(error));
-    const changedFiles = await replace({
-      files,
-      from: /styles\.min\.css[?=v\d.-]*/g,
-      to: `${filename}.min.css?=v${version}.${build}-${Math.round(new Date().getTime() / 1000)}`,
-    }).catch(error => console.log(error));
-    console.log('Modified Files:', changedFiles.join(','));
-    console.log(`Output destination: ${path.resolve()}/${dest}`);
-    console.log(`Bundle CSS Built! ${new Date().toLocaleTimeString()}`);
-    console.log(chalk.green(path.join(__dirname, `${dest}/${filename}.min.css`)));
-    console.log(chalk.green(path.join(__dirname, `${dest}/${filename}.min.css.map`)));
-    browserSync.reload('*.css');
+    let changedFiles;
+
+    // Compile Sass
+    await buildSass(bundle).catch(error => console.log(error));
+
+    // Update the cache parameter in the filename in the view
+    if (updateFilename) {
+      const filenameRegex = RegExp(`${filename}\\.v([\\d.-]+)\\.min\\.css(\\?cache=([\\d]+)|)`, 'g');
+      changedFiles = await replace({
+        files,
+        from: filenameRegex,
+        to: `${filename}.v${version}-${build}.min.css?cache=${new Date().getTime()}`,
+      }).catch(error => console.log(error));
+    }
+
+    // Log the ouput of the build
+    console.log(chalk.cyan('Modified Files:', (changedFiles !== undefined ? changedFiles.join(',') : '')));
+    console.log(chalk.green(`Output destination: ${path.resolve(dest)}`));
+    console.log(chalk.cyan(`${bundleName} has finished running. ${new Date().toLocaleTimeString()}`));
+    console.log(chalk.green(path.join(__dirname, `${dest}/${filename}.v${version}-${build}.min.css`)));
+    console.log(chalk.green(path.join(__dirname, `${dest}/${filename}.v${version}-${build}.min.css.map`)));
+    browserSync.reload(`${filename}.v${version}-${build}.min.css`);
     console.log('\n');
   } else {
     console.log(`There are CSS errors. Stylesheet did NOT build! Please fix your CSS errors. ${new Date().toLocaleTimeString()}`);
   }
-});
+};
+
+gulp.task('buildBundleSass', () => sassBuildTask('BundleSass', bundleSass, true));
+
+// gulp.task('buildVisualizationSass', () => sassBuildTask('VisualizationSass', visualizationSass, true));
 
 // Build Templates ----------------------------------
 gulp.task('buildNunjucks', async () => {
