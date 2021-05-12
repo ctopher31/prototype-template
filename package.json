@@ -56,7 +56,7 @@
     "mocha": "^5.2.0",
     "node-sass": "^4.9.3",
     "nodemon": "^1.18.3",
-    "postcss": "^7.0.2",
+    "postcss": "^8.2.10",
     "postcss-reporter": "^5.0.0",
     "postcss-scss": "^1.0.6",
     "react-test-renderer": "^16.4.2",
