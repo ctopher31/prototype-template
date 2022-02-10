@@ -54,7 +54,7 @@
     "jest": "^22.4.3",
     "jsdom": "^11.12.0",
     "mocha": "^5.2.0",
-    "node-sass": "^4.9.3",
+    "node-sass": "^7.0.0",
     "nodemon": "^1.18.3",
     "postcss": "^7.0.2",
     "postcss-reporter": "^5.0.0",
